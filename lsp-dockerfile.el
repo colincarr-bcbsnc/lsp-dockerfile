@@ -18,9 +18,10 @@
 (require 'lsp-mode)
 (require 'dockerfile-mode)
 
-(lsp-define-stdio-client lsp-dockerfile "Docker"
-			 (lambda () default-directory)
-			 '("docker-langserver" "--stdio"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection `("docker-langserver" "--stdio"))
+                  :major-modes '(dockerfile-mode)
+                  :server-id 'Docker))
 
 (provide 'lsp-dockerfile)
 ;;; lsp-dockerfile.el ends here
